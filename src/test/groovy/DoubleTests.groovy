@@ -58,13 +58,13 @@ class DoubleTests extends Specification{
         result == Double.NEGATIVE_INFINITY
     }
 
-    def "+0.0 == -0.0 should be false"() {
+    def "+0.0 == -0.0 should be true"() {
         def result = (double) +0.0 == (double) -0.0
         expect:
         result == true
     }
 
-    def "+0.0 > -0.0 should be true"() {
+    def "+0.0 > -0.0 should be false"() {
         def result = (double) +0.0 > (double) -0.0
         expect:
         result == false
