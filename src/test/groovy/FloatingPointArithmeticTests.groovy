@@ -3,16 +3,16 @@ import spock.lang.Specification
 class FloatingPointArithmeticTests extends Specification {
 
     class FloatingPointHelper {
-        static boolean compareNaN(double value) {
-            return Double.isNaN(value);
+        static boolean compareNaN(float value) {
+            return Float.isNaN(value);
         }
     }
 
     class FloatingPointOperations {
-        double add(double a, double b) { return a + b; }
-        double subtract(double a, double b) { return a - b; }
-        double multiply(double a, double b) { return a * b; }
-        double divide(double a, double b) { return a / b; }
+        float add(float a, float b) { return a + b; }
+        float subtract(float a, float b) { return a - b; }
+        float multiply(float a, float b) { return a * b; }
+        float divide(float a, float b) { return a / b; }
     }
 
     def floatingPointOperations = new FloatingPointOperations()
@@ -32,19 +32,19 @@ class FloatingPointArithmeticTests extends Specification {
         floatingPointOperations.subtract(floatingPointOperations.add(1e16, 1), 1e16) == 0.0
     }
 
-    def "Multiplication: Double.MAX_VALUE * 2 should return positive infinity"() {
+    def "Multiplication: Float.MAX_VALUE * 2 should return positive infinity"() {
         expect:
-        floatingPointOperations.multiply(Double.MAX_VALUE, 2) == Double.POSITIVE_INFINITY
+        floatingPointOperations.multiply(Float.MAX_VALUE, 2) == Float.POSITIVE_INFINITY
     }
 
-    def "Division: 1.0 / Double.MIN_VALUE should return positive infinity"() {
+    def "Division: 1.0 / Float.MIN_VALUE should return positive infinity"() {
         expect:
-        floatingPointOperations.divide(1.0, Double.MIN_VALUE) == Double.POSITIVE_INFINITY
+        floatingPointOperations.divide(1.0, Float.MIN_VALUE) == Float.POSITIVE_INFINITY
     }
 
-    def "Division: Double.MIN_VALUE / 2 should return 0.0 (subnormal behavior)"() {
+    def "Division: Float.MIN_VALUE / 2 should return 0.0 (subnormal behavior)"() {
         expect:
-        floatingPointOperations.divide(Double.MIN_VALUE, 2) == 0.0
+        floatingPointOperations.divide(Float.MIN_VALUE, 2) == 0.0
     }
 
     def "Division: 0.0 / 0.0 should return NaN"() {
@@ -54,22 +54,22 @@ class FloatingPointArithmeticTests extends Specification {
 
     def "NaN behavior: NaN + 1.0 should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.add(Double.NaN, 1.0))
+        FloatingPointHelper.compareNaN(floatingPointOperations.add(Float.NaN, 1.0))
     }
 
     def "NaN behavior: NaN * 0.0 should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.multiply(Double.NaN, 0.0))
+        FloatingPointHelper.compareNaN(floatingPointOperations.multiply(Float.NaN, 0.0))
     }
 
     def "Infinity behavior: Positive INF - Positive INF should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.subtract(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY))
+        FloatingPointHelper.compareNaN(floatingPointOperations.subtract(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY))
     }
 
     def "Infinity behavior: Negative INF + Positive INF should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.add(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+        FloatingPointHelper.compareNaN(floatingPointOperations.add(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY))
     }
 
     def "0 / 0 should return NaN"() {
@@ -79,32 +79,32 @@ class FloatingPointArithmeticTests extends Specification {
 
     def "INF / INF should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.divide(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY))
+        FloatingPointHelper.compareNaN(floatingPointOperations.divide(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY))
     }          //SHOULD IT RETURN NaN?????
 
     def "INF / +0 should return Positive Infinity"() {
         expect:
-        floatingPointOperations.divide(Double.POSITIVE_INFINITY, +0.0) == Double.POSITIVE_INFINITY
+        floatingPointOperations.divide(Float.POSITIVE_INFINITY, +0.0) == Float.POSITIVE_INFINITY
     }
 
     def "INF / -0 should return Negative Infinity"() {
         expect:
-        floatingPointOperations.divide(Double.POSITIVE_INFINITY, -0.0) == Double.NEGATIVE_INFINITY
+        floatingPointOperations.divide(Float.POSITIVE_INFINITY, -0.0) == Float.NEGATIVE_INFINITY
     }
 
     def "0 / INF should return 0"() {
         expect:
-        floatingPointOperations.divide(0.0, Double.POSITIVE_INFINITY) == 0.0
+        floatingPointOperations.divide(0.0, Float.POSITIVE_INFINITY) == 0.0
     }
 
     def "1 / +0 should return Positive Infinity"() {
         expect:
-        floatingPointOperations.divide(1.0, +0.0) == Double.POSITIVE_INFINITY
+        floatingPointOperations.divide(1.0, +0.0) == Float.POSITIVE_INFINITY
     }
 
     def "1 / -0 should return Negative Infinity"() {
         expect:
-        floatingPointOperations.divide(1.0, -0.0) == Double.NEGATIVE_INFINITY
+        floatingPointOperations.divide(1.0, -0.0) == Float.NEGATIVE_INFINITY
     }
 
     def "0+ == 0-"() {
@@ -119,66 +119,66 @@ class FloatingPointArithmeticTests extends Specification {
 
     def "NaN == NaN should return false"() {
         expect:
-        Double.NaN == Double.NaN == false
+        Float.NaN == Float.NaN == false
     }
 
     def "(MAX - 1) * 2 should return Positive Infinity"() {
         expect:
-        floatingPointOperations.multiply(Double.MAX_VALUE - 1, 2) == Double.POSITIVE_INFINITY
+        floatingPointOperations.multiply((float) (Float.MAX_VALUE - 2f), 2f) == Float.POSITIVE_INFINITY
     }
 
     def "(MAX - 1) / MAX should return 1"() {
         expect:
-        floatingPointOperations.divide(Double.MAX_VALUE - 1, Double.MAX_VALUE) == 1.0
+        floatingPointOperations.divide((float) (Float.MAX_VALUE - 1f), Float.MAX_VALUE) == 1f
     }
 
     def "MAX / (MAX - 1) should return Infinity"() {
         expect:
-        floatingPointOperations.divide(Double.MAX_VALUE, Double.MAX_VALUE - 1) == Double.POSITIVE_INFINITY
+        floatingPointOperations.divide(Float.MAX_VALUE, (float) (Float.MAX_VALUE - 1f)) == Float.POSITIVE_INFINITY
     }
 
     def "1 / MIN should return Positive Infinity"() {
         expect:
-        floatingPointOperations.divide(1.0, Double.MIN_VALUE) == Double.POSITIVE_INFINITY
+        floatingPointOperations.divide(1.0, Float.MIN_VALUE) == Float.POSITIVE_INFINITY
     }
 
     def "MAX / +0 should return Positive Infinity"() {
         expect:
-        floatingPointOperations.divide(Double.MAX_VALUE, +0.0) == Double.POSITIVE_INFINITY
+        floatingPointOperations.divide(Float.MAX_VALUE, +0.0) == Float.POSITIVE_INFINITY
     }
 
     def "MAX / -0 should return Negative Infinity"() {
         expect:
-        floatingPointOperations.divide(Double.MAX_VALUE, -0.0) == Double.NEGATIVE_INFINITY
+        floatingPointOperations.divide(Float.MAX_VALUE, -0.0) == Float.NEGATIVE_INFINITY
     }
 
-    def "MIN / 0 should return Negative Infinity"() {
+    def "MIN / 0 should return Positive Infinity"() {
         expect:
-        floatingPointOperations.divide(Double.MIN_VALUE, 0.0) == Double.NEGATIVE_INFINITY
+        floatingPointOperations.divide(Float.MIN_VALUE, 0.0) == Float.POSITIVE_INFINITY
     }
 
     def "1 + MIN - 1 should be approximately 0"() {
         expect:
-        Math.abs(floatingPointOperations.add(Double.MIN_VALUE, -1) + 1) < 1e-15
+        Math.abs(floatingPointOperations.add(Float.MIN_VALUE, -1) + 1) < 1e-15
     }
 
-    def "MAX + 1 - MAX should return 1 due to precision"() {
+    def "MAX + 1 - MAX should return 0f"() {
         expect:
-        floatingPointOperations.add(Double.MAX_VALUE, 1) - Double.MAX_VALUE == 1.0
+        floatingPointOperations.add(Float.MAX_VALUE, 1f) - Float.MAX_VALUE == 0f
     }
 
     def "NaN / NaN should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.divide(Double.NaN, Double.NaN))
+        FloatingPointHelper.compareNaN(floatingPointOperations.divide(Float.NaN, Float.NaN))
     }
 
     def "NaN / 0 should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.divide(Double.NaN, 0.0))
+        FloatingPointHelper.compareNaN(floatingPointOperations.divide(Float.NaN, 0.0))
     }
 
     def "NaN + Value should return NaN"() {
         expect:
-        FloatingPointHelper.compareNaN(floatingPointOperations.add(Double.NaN, 100.0))
+        FloatingPointHelper.compareNaN(floatingPointOperations.add(Float.NaN, 100.0))
     }
 }
