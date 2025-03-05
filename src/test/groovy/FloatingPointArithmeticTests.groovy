@@ -132,9 +132,9 @@ class FloatingPointArithmeticTests extends Specification {
         floatingPointOperations.divide((float) (Float.MAX_VALUE - 1f), Float.MAX_VALUE) == 1f
     }
 
-    def "MAX / (MAX - 1) should return Infinity"() {
+    def "MAX / (MAX - 1) should return 1"() {
         expect:
-        floatingPointOperations.divide(Float.MAX_VALUE, (float) (Float.MAX_VALUE - 1f)) == Float.POSITIVE_INFINITY
+        floatingPointOperations.divide(Float.MAX_VALUE, (float) (Float.MAX_VALUE - 1f)) == 1f
     }
 
     def "1 / MIN should return Positive Infinity"() {

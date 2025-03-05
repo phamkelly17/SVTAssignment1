@@ -89,11 +89,10 @@ class DoubleTests extends Specification{
         result == 1.0
     }
 
-    //unsure about this
     def "Double.MAX_VALUE / (Double.MAX_VALUE - 1) should be approximately 1.0"() {
         def result = Double.MAX_VALUE / (Double.MAX_VALUE - 1)
         expect:
-        result == Double.POSITIVE_INFINITY
+        result == 1.0
     }
 
     def "1.0 / Double.MIN_VALUE should return positive infinity"() {
