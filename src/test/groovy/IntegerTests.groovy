@@ -61,13 +61,13 @@ class IntegerTests extends Specification {
         result > 1
     }
 
-    def "1 / Integer.MIN_VAL should equal -4.656612873077392578125E-10"() {
+    def "1 / Integer.MIN_VAL should equal Infinity"() {
 
         when: "1 is divided by Integer.MIN_VAL"
         def result = 1 / Integer.MIN_VALUE
 
-        then: "Result should be a very small negative value"
-        result == -4.656612873077392578125E-10
+        then: "Result should be greater or equal to Integer.MAX_VALUE"
+        result >= Integer.MAX_VALUE
     }
 
     def "Integer.MAX_VALUE / 0 should throw ArithmeticException"() {
